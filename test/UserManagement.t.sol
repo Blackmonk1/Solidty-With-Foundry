@@ -20,8 +20,7 @@ contract UserManagementTest is Test {
         vm.prank(alice);
         userManagement.registerUser("Alice");
 
-        (string memory name,,UserManagement.UserStatus status, bool exists) = 
-            userManagement.getUser(alice);
+        (string memory name,, UserManagement.UserStatus status, bool exists) = userManagement.getUser(alice);
 
         assertEq(name, "Alice");
         assertEq(uint256(status), uint256(UserManagement.UserStatus.Active));
@@ -39,7 +38,7 @@ contract UserManagementTest is Test {
     function testCannotRegisterTwice() public {
         vm.startPrank(alice);
         userManagement.registerUser("Alice");
-        
+
         vm.expectRevert("User already registered");
         userManagement.registerUser("Alice");
         vm.stopPrank();
@@ -70,8 +69,8 @@ contract UserManagementTest is Test {
         vm.prank(bob);
         userManagement.registerUser("Bob");
 
-        (string memory name1,,,bool exists1) = userManagement.getUser(alice);
-        (string memory name2,,,bool exists2) = userManagement.getUser(bob);
+        (string memory name1,,, bool exists1) = userManagement.getUser(alice);
+        (string memory name2,,, bool exists2) = userManagement.getUser(bob);
 
         assertEq(name1, "Alice");
         assertEq(name2, "Bob");
